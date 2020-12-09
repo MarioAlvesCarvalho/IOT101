@@ -9,7 +9,7 @@ void loop()
 {                    
   digitalWrite(13, HIGH);
   Serial.println("Ligado");
-  delay(1000);                     
+  delay(1000);                   
   digitalWrite(13, LOW);
   Serial.println("Desligado");
   delay(1000);                      
