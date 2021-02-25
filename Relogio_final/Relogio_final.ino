@@ -1,6 +1,5 @@
 //Bare metal LCD sample
 //This sketch will show the light reading in the display
-//TESTE
 
 #include <LiquidCrystal.h>
 #include <Adafruit_Sensor.h>
@@ -53,26 +52,26 @@ byte grauC[8] ={
                         B01110
                       };
 byte doispontos[8] = {
-  B01110,
-  B01010,
-  B01110,
-  B00000,
-  B00000,
-  B01110,
-  B01010,
-  B01110
-};
+                      B01110,
+                      B01010,
+                      B01110,
+                      B00000,
+                      B00000,
+                      B01110,
+                      B01010,
+                      B01110
+                      };
 
 byte doispontosfull[8] = {
-  B01110,
-  B01110,
-  B01110,
-  B00000,
-  B00000,
-  B01110,
-  B01110,
-  B01110
-};
+                          B01110,
+                          B01110,
+                          B01110,
+                          B00000,
+                          B00000,
+                          B01110,
+                          B01110,
+                          B01110
+                          };
 
 void setup() 
 {
@@ -204,7 +203,6 @@ void Clock()
     if (analogRead(A1) > valor_luz)
     {
      tone(14,1000,200);
-     //noTone(14);
     }
        
     lcd.setCursor(0, 0);
@@ -221,12 +219,12 @@ void Clock()
     if ((time.second()%2) == 0)
       {
       //lcd.print(":");
-      lcd.write((byte)2);
+      lcd.write((byte)2); //Dois pontos como desenho
       }
      else 
         {
         //lcd.print(" ");
-        lcd.write((byte)3);
+        lcd.write((byte)3); //Dois pontos como desenho
         }
       
     
@@ -242,12 +240,12 @@ void Clock()
     if ((time.second()%2) == 0)
       {
       //lcd.print(":");
-      lcd.write((byte)2);
+      lcd.write((byte)2); //Dois pontos como desenho
       }
       else 
         {
         //lcd.print(" ");
-        lcd.write((byte)3);
+        lcd.write((byte)3); //Dois pontos como desenho
         }
     if (time.second() < 10)
     {
@@ -271,7 +269,6 @@ void Date()
     month = date.month();
     
     lcd.setCursor(0, 1);
-//  lcd.print("Clock ");
     if (date.day() < 10)
     {
       lcd.print("0");
@@ -414,9 +411,9 @@ void loop()
   */   
 
  
+    
+    rtc.adjust(DateTime(year, month, day, hour, minute, second ));  
     //rtc.adjust(DateTime(year, month, day, hour, 59, 55));  // Testes de bip de minuto em minuto
-    //rtc.adjust(DateTime(year, month, day, hour, minute, second ));  
-    rtc.adjust(DateTime(2021, 02, 23, 10, 59, 55 ));  
   }
 
   if((long)(millis() - last_micros_clock) >= 1000) 
