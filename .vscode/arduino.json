@@ -1,6 +1,0 @@
-{
-    "programmer": "ArduinoISP",
-    "board": "arduino:avr:uno",
-    "sketch": "Blink\\Blink_digital.ino",
-    "port": "COM3"
-}
