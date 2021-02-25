@@ -1,5 +1,6 @@
 //Bare metal LCD sample
 //This sketch will show the light reading in the display
+//TESTE
 
 #include <LiquidCrystal.h>
 #include <Adafruit_Sensor.h>
