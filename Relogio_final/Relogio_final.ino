@@ -21,6 +21,7 @@ volatile int day = 0, month = 0, year=1999;
 volatile int hour_bip = hour;
 int valor_luz = 200;
 
+char diasDaSemana[7][12] = {"Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sab"}; //Dias da semana
 
 long debouncing_time = 150; //Debouncing Time in Milliseconds
 volatile unsigned long last_micros = 0;
@@ -75,10 +76,11 @@ byte doispontosfull[8] = {
 
 void setup() 
 {
-  pinMode(A1,INPUT);
-  pinMode(5,OUTPUT);
-  pinMode(14,OUTPUT);
-  digitalWrite(5,1);
+  pinMode(A1,INPUT);  //LDR
+  pinMode(5,OUTPUT);  // LED Display
+  pinMode(14,OUTPUT);  //Buzzer
+  
+  digitalWrite(5,1);  
   
   pinMode(1, INPUT_PULLUP);
   pinMode(2, INPUT_PULLUP);
@@ -150,7 +152,7 @@ void printSensor()
     if (t<10) //prevent garbage for single digit temperature
     {
       lcd.setCursor(13, 0);
-      lcd.print("0");
+      lcd.print(" ");
       lcd.print(t);      
     }
     //lcd.setCursor(11, 0);
@@ -259,7 +261,8 @@ void Clock()
     lcd.print(" ");
 
     hour_bip=time.hour();
-  }
+
+    }
 
 void Date()
 {
@@ -299,6 +302,9 @@ void Date()
       lcd.print(date.year()-2000);
     }
     lcd.print(" ");
+
+    lcd.setCursor(9,1);
+    lcd.print(diasDaSemana[date.dayOfTheWeek()]);
 }
 
 
