@@ -321,17 +321,48 @@ void Alarme()
 
 void loop() 
 {
-
   //Setting the time will stop the clock to set the time
   while (startstop == false)
   {      
-   if (Ajuste <= 2)
+
+ if (Ajuste == 1)
+  {
+   lcd.setCursor(0, 0);
+   lcd.print("Hour:   ");
+  }   
+ if (Ajuste == 2)
+  {
+   lcd.setCursor(0, 0);
+   lcd.print("Minut:  ");
+  }
+   if (Ajuste == 3)
+  {
+   lcd.setCursor(0, 0);
+   lcd.print("Second: ");
+  }
+   if (Ajuste == 4)
+  {
+   lcd.setCursor(0, 0);
+   lcd.print("Day:    ");
+  }
+   if (Ajuste == 5)
+  {
+   lcd.setCursor(0, 0);
+   lcd.print("Month:  ");
+  }
+   if (Ajuste == 6)
+  {
+   lcd.setCursor(0, 0);
+   lcd.print("Year:   ");
+  }   
+      
+   if (Ajuste <= 3)
   {
     lcd.setCursor(0, 1);
     lcd.print("-Clock set MODE- ");
     delay(100);
-    lcd.setCursor(0, 0);
-    lcd.print("Hour:   ");
+    lcd.setCursor(8, 0);
+    //lcd.print("Hour:   ");
   if(hour<10)
   {
     lcd.print("0");
@@ -363,10 +394,16 @@ void loop()
     }
    
   if (digitalRead(3) == LOW  && Ajuste == 2)
-    { minute++;
+    {minute++;
       if (minute > 59)
         minute = 0;
     }
+  if (digitalRead(3) == LOW  && Ajuste == 3)
+    {second++;
+      if (second > 59)
+        second = 0;
+    }
+
   }
 
     else 
@@ -374,8 +411,8 @@ void loop()
     lcd.setCursor(0, 1);
         lcd.print("-Date set MODE- ");
         delay(100);
-        lcd.setCursor(0, 0);
-        lcd.print("Date:   ");
+        lcd.setCursor(8, 0);
+        //lcd.print("Date:   ");
     if(day<10)
         {
       lcd.print("0");
@@ -400,17 +437,19 @@ void loop()
         else
       lcd.print(year-2000);
            
-       if (digitalRead(3) == LOW && Ajuste == 3)
-          {day++;
+       if (digitalRead(3) == LOW && Ajuste == 4)
+          {lcd.setCursor(0, 0);
+           lcd.print("Day:    ");
+            day++;
             if (day > 31)
               day = 1;
         }
-        if (digitalRead(3) == LOW && Ajuste == 4)
+        if (digitalRead(3) == LOW && Ajuste == 5)
           {month++;
           if (month > 12)
               month = 1;
         }
-    if (digitalRead(3) == LOW && Ajuste == 5)
+    if (digitalRead(3) == LOW && Ajuste == 6)
           {year++;
           if (year > 2099)
                 year= 2000;
@@ -420,7 +459,7 @@ void loop()
      if (digitalRead(1) == LOW)
         {
           Ajuste++;
-          if (Ajuste > 5)
+          if (Ajuste > 6)
             Ajuste = 1;
         }
        
