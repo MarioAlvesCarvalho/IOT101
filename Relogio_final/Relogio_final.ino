@@ -17,9 +17,11 @@ DHT_Unified dht(DHTPIN, DHTTYPE);
 
 bool startstop = true;
 volatile int second = 0, minute = 0, hour = 0;
-volatile int day = 0, month = 0, year=1999;
+volatile int day = 0, month = 0, year=2001;
 volatile int hour_bip = hour;
 int valor_luz = 200;
+
+int Ajuste = 1;
 
 char diasDaSemana[7][12] = {"Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sab"}; //Dias da semana
 
@@ -82,9 +84,9 @@ void setup()
   
   digitalWrite(5,1);  
   
-  pinMode(1, INPUT_PULLUP);
-  pinMode(2, INPUT_PULLUP);
-  pinMode(3, INPUT_PULLUP);
+  pinMode(1, INPUT_PULLUP);  // Botao Hour
+  pinMode(2, INPUT_PULLUP);  // Botao Set
+  pinMode(3, INPUT_PULLUP);  // Botao Minute
 
   attachInterrupt(digitalPinToInterrupt(2), buttons, FALLING);
   
@@ -292,7 +294,7 @@ void Date()
       lcd.print(date.month());
 
     } lcd.print("/");
-    if (date.year() < 10)
+    if (date.year()-2000 < 10)
     {
       lcd.print("0");
       lcd.print(date.year()-2000);
@@ -322,104 +324,107 @@ void loop()
 
   //Setting the time will stop the clock to set the time
   while (startstop == false)
+  {      
+   if (Ajuste <= 2)
   {
     lcd.setCursor(0, 1);
     lcd.print("-Clock set MODE- ");
     delay(100);
     lcd.setCursor(0, 0);
-    lcd.print("Time: ");
-    if(hour<10)
-    {
+    lcd.print("Hour:   ");
+  if(hour<10)
+  {
     lcd.print("0");
     lcd.print(hour);
-    }
+  }
     else
-    lcd.print(hour);
-    lcd.print(":");
-    if(minute<10)
-    {
+      lcd.print(hour);
+      lcd.print(":");
+  if(minute<10)
+  {
     lcd.print("0");
     lcd.print(minute);
-    }
+  }
     else
-    lcd.print(minute);
-    lcd.print(":");
-    if(second<10)
-    {
+      lcd.print(minute);
+      lcd.print(":");
+  if(second<10)
+  {
     lcd.print("0");  
     lcd.print(second);
-    }
+  }
     else
-    lcd.print(second);
-    lcd.print(" ");
-    
-    if (digitalRead(1) == LOW)
-    {
-      hour++;
+      lcd.print(second);
+      lcd.print("  ");
+  if (digitalRead(3) == LOW && Ajuste == 1)
+    {hour++;
       if (hour > 23)
         hour = 0;
     }
-    if (digitalRead(3) == LOW)
-    {
-      minute++;
+   
+  if (digitalRead(3) == LOW  && Ajuste == 2)
+    { minute++;
       if (minute > 59)
         minute = 0;
     }
+  }
 
-
- /*
+    else 
+    { 
     lcd.setCursor(0, 1);
-    lcd.print("-Cal.  set MODE- ");
-    delay(100);
-    lcd.setCursor(0, 0);
-    lcd.print("Date: ");
+        lcd.print("-Date set MODE- ");
+        delay(100);
+        lcd.setCursor(0, 0);
+        lcd.print("Date:   ");
     if(day<10)
-    {
-    lcd.print("0");
-    lcd.print(day);
-    }
-    else
-    lcd.print(day);
-    lcd.print("/");
+        {
+      lcd.print("0");
+      lcd.print(day);
+        }
+      else
+        lcd.print(day);
+        lcd.print("/");
     if(month<10)
     {
-    lcd.print("0");
-    lcd.print(month);
+      lcd.print("0");
+      lcd.print(month);
     }
-    else
-    lcd.print(month);
-    lcd.print("/");
-    if(year<10)
-    {
-    lcd.print("0");
-    lcd.print(year-2000);
+      else
+      lcd.print(month);
+      lcd.print("/");
+    if(year-2000<10)
+      {
+        lcd.print("0");
+        lcd.print(year-2000);
+        }
+        else
+      lcd.print(year-2000);
+           
+       if (digitalRead(3) == LOW && Ajuste == 3)
+          {day++;
+            if (day > 31)
+              day = 1;
+        }
+        if (digitalRead(3) == LOW && Ajuste == 4)
+          {month++;
+          if (month > 12)
+              month = 1;
+        }
+    if (digitalRead(3) == LOW && Ajuste == 5)
+          {year++;
+          if (year > 2099)
+                year= 2000;
+          }
     }
-    else
-    lcd.print(year-2000);
-    lcd.print(" ");
 
-    if (digitalRead(1) == LOW)
-    {
-      day++;
-      if (day > 31)
-        day = 1;
-    }
-    if (digitalRead(3) == LOW)
-    {
-      month++;
-      if (month > 12)
-        month = 1;
-        year++;
-        if (year > 2029)
-        year = 2020;
-    }
- 
-  */   
-
- 
-    
+     if (digitalRead(1) == LOW)
+        {
+          Ajuste++;
+          if (Ajuste > 5)
+            Ajuste = 1;
+        }
+       
     rtc.adjust(DateTime(year, month, day, hour, minute, second ));  
-    //rtc.adjust(DateTime(year, month, day, hour, 59, 55));  // Testes de bip de minuto em minuto
   }
 
   if((long)(millis() - last_micros_clock) >= 1000) 
